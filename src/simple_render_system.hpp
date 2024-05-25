@@ -1,32 +1,32 @@
 #pragma once
 
-#include "lge_device.hpp"
-#include "lge_game_object.hpp"
-#include "lge_pipeline.hpp"
+#include "xev_device.hpp"
+#include "xev_game_object.hpp"
+#include "xev_pipeline.hpp"
 
 // std
 #include <memory>
 #include <vector>
 
-namespace lge2 {
-class SimpleRenderSystem {
-public:
-  SimpleRenderSystem(LgeDevice& device, VkRenderPass renderPass);
-  ~SimpleRenderSystem();
+namespace xev {
+  class SimpleRenderSystem {
+  public:
+    SimpleRenderSystem(XevDevice& device, VkRenderPass renderPass);
+    ~SimpleRenderSystem();
 
-  SimpleRenderSystem(const SimpleRenderSystem&)            = delete;
-  SimpleRenderSystem& operator=(const SimpleRenderSystem&) = delete;
+    SimpleRenderSystem(const SimpleRenderSystem&) = delete;
+    SimpleRenderSystem& operator=(const SimpleRenderSystem&) = delete;
 
-  void renderGameObjects(
-      VkCommandBuffer commandBuffer, std::vector<LgeGameObject>& gameObjects);
+    void renderGameObjects(
+      VkCommandBuffer commandBuffer, std::vector<XevGameObject>& gameObjects);
 
-private:
-  void createPipelineLayout();
-  void createPipeline(VkRenderPass renderPass);
+  private:
+    void createPipelineLayout();
+    void createPipeline(VkRenderPass renderPass);
 
-  LgeDevice& lgeDevice;
+    XevDevice& xevDevice;
 
-  std::unique_ptr<LgePipeline> lgePipeline;
-  VkPipelineLayout pipelineLayout;
-};
-} // namespace lge
+    std::unique_ptr<XevPipeline> xevPipeline;
+    VkPipelineLayout pipelineLayout;
+  };
+} // namespace xev

@@ -1,33 +1,33 @@
 #pragma once
 
-#include "lge_device.hpp"
-#include "lge_game_object.hpp"
-#include "lge_renderer.hpp"
-#include "lge_window.hpp"
+#include "xev_device.hpp"
+#include "xev_game_object.hpp"
+#include "xev_renderer.hpp"
+#include "xev_window.hpp"
 
 #include <memory>
 #include <string>
 #include <vector>
 
-namespace lge2 {
-class FirstApp {
-public:
-  static constexpr int WIDTH  = 1280;
-  static constexpr int HEIGHT = 720;
+namespace xev {
+  class FirstApp {
+  public:
+    static constexpr int WIDTH = 1280;
+    static constexpr int HEIGHT = 720;
 
-  FirstApp();
-  ~FirstApp();
-  FirstApp(const FirstApp&)            = delete;
-  FirstApp& operator=(const FirstApp&) = delete;
+    FirstApp();
+    ~FirstApp();
+    FirstApp(const FirstApp&) = delete;
+    FirstApp& operator=(const FirstApp&) = delete;
 
-  void run();
+    void run();
 
-private:
-  LgeWindow lgeWindow{"Vulkan2D demo", WIDTH, HEIGHT};
-  LgeDevice lgeDevice{lgeWindow};
-  LgeRenderer lgeRenderer{lgeWindow, lgeDevice};
+  private:
+    XevWindow xevWindow{ "Vulkan2D demo", WIDTH, HEIGHT };
+    XevDevice xevDevice{ xevWindow };
+    XevRenderer xevRenderer{ xevWindow, xevDevice };
 
-  void loadGameObjects();
-  std::vector<LgeGameObject> gameObjects;
-};
-} // namespace lge
+    void loadGameObjects();
+    std::vector<XevGameObject> gameObjects;
+  };
+} // namespace xev

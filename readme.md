@@ -1,10 +1,10 @@
-# Little Game Engine(Temp, WIP)
+# xvk2de
 
 **Under development...**
 
 ## Description
 
-A Vulkan game engine for personal study and interests.
+A 2D Vulkan game engine for personal study and interests.
 
 This project was initially created by following the tutorial
 of [Little Vulkan Engine](https://youtu.be/Y9U9IE0gVHA?si=42keJCaEPE-R697P) for learning Vulkan and Game Engine.
@@ -45,20 +45,10 @@ The following libraries are used and pre-installed in this project.
 
 ## TODO
 
-- [ ] Rename the project
-- [ ] Feature: Texture
-- [ ] Feature: Shadow
-- [ ] Feature: PBR
 - [ ] GUI: ImGUI
 - [ ] Mouse Input
 - [ ] Physics Engine
-- [ ] Audio Engine(optional)
 
-## Current Problems
-
-1. [Performance] When VSync off, the load of GPU is too high, especially on high resolution. There are whistle noise from the GPU. However, when VSync on, there is noticeable input and display lag.
-2. [VLayer]`validation layer: Validation Performance Warning: [ UNASSIGNED-CoreValidation-Shader-OutputNotConsumed ]`
-3. [Object Model] On large models, some faces are missing. 
 
 ## Reference
 
