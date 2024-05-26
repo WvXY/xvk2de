@@ -23,7 +23,7 @@ namespace xev {
     void run();
 
   private:
-    XevWindow xevWindow{ "Vulkan2D demo", WIDTH, HEIGHT };
+    XevWindow xevWindow{ "XenonApp", WIDTH, HEIGHT };
     XevDevice xevDevice{ xevWindow };
     XevRenderer xevRenderer{ xevWindow, xevDevice };
 

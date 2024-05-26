@@ -32,9 +32,9 @@ namespace xev {
     XevGameObject(const XevGameObject&) = delete;
     XevGameObject& operator=(const XevGameObject&) = delete;
     XevGameObject(XevGameObject&&) = default;
-    XevGameObject& operator=(XevGameObject&&) = default;
+    XevGameObject& operator=(XevGameObject&&) = delete;
 
-    //        id_t getId() const { return id; }
+    [[nodiscard]] id_t getId() const { return id; }
 
     const id_t id{};
     std::shared_ptr<XevModel> model{};

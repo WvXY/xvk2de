@@ -10,6 +10,11 @@ file(GLOB_RECURSE SOURCES
 add_executable(${PROJECT_NAME}
         ${SOURCES}
         ${XEV_SRC_FILES}
+        physics.cpp
+        physics.hpp
+        primitive.cpp
+        primitive.hpp
+        xev_aliases.hpp
 )
 
 if(UNIX)

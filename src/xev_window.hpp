@@ -26,6 +26,11 @@ namespace xev {
 
     void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
 
+    void diaplayOnTitle(std::string info) {
+      std::string newWindowName = windowName + " - " + info;
+      glfwSetWindowTitle(window, newWindowName.c_str());
+    }
+
   private:
     static void framebufferResizeCallback(GLFWwindow* window, int width, int height);
     void initWindow();
@@ -34,7 +39,7 @@ namespace xev {
     int height;
     bool framebufferResized = false;
     std::string windowName;
-
     GLFWwindow* window{};
+
   };
 } // namespace xev
