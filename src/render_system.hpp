@@ -9,24 +9,24 @@
 #include <vector>
 
 namespace xev {
-  class SimpleRenderSystem {
-  public:
-    SimpleRenderSystem(XevDevice& device, VkRenderPass renderPass);
-    ~SimpleRenderSystem();
+class SimpleRenderSystem {
+public:
+  SimpleRenderSystem(XevDevice& device, VkRenderPass renderPass);
+  ~SimpleRenderSystem();
 
-    SimpleRenderSystem(const SimpleRenderSystem&) = delete;
-    SimpleRenderSystem& operator=(const SimpleRenderSystem&) = delete;
+  SimpleRenderSystem(const SimpleRenderSystem&)            = delete;
+  SimpleRenderSystem& operator=(const SimpleRenderSystem&) = delete;
 
-    void renderGameObjects(
+  void renderGameObjects(
       VkCommandBuffer commandBuffer, std::vector<XevGameObject>& gameObjects);
 
-  private:
-    void createPipelineLayout();
-    void createPipeline(VkRenderPass renderPass);
+private:
+  void createPipelineLayout();
+  void createPipeline(VkRenderPass renderPass);
 
-    XevDevice& xevDevice;
+  XevDevice& xevDevice;
 
-    std::unique_ptr<XevPipeline> xevPipeline;
-    VkPipelineLayout pipelineLayout;
-  };
+  std::unique_ptr<XevPipeline> xevPipeline;
+  VkPipelineLayout pipelineLayout;
+};
 } // namespace xev

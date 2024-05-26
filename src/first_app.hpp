@@ -10,24 +10,24 @@
 #include <vector>
 
 namespace xev {
-  class FirstApp {
-  public:
-    static constexpr int WIDTH = 1280;
-    static constexpr int HEIGHT = 720;
+class FirstApp {
+public:
+  static constexpr int WIDTH  = 1280;
+  static constexpr int HEIGHT = 720;
 
-    FirstApp();
-    ~FirstApp();
-    FirstApp(const FirstApp&) = delete;
-    FirstApp& operator=(const FirstApp&) = delete;
+  FirstApp();
+  ~FirstApp();
+  FirstApp(const FirstApp&)            = delete;
+  FirstApp& operator=(const FirstApp&) = delete;
 
-    void run();
+  void run();
 
-  private:
-    XevWindow xevWindow{ "XenonApp", WIDTH, HEIGHT };
-    XevDevice xevDevice{ xevWindow };
-    XevRenderer xevRenderer{ xevWindow, xevDevice };
+private:
+  XevWindow xevWindow{"XenonApp", WIDTH, HEIGHT};
+  XevDevice xevDevice{xevWindow};
+  XevRenderer xevRenderer{xevWindow, xevDevice};
 
-    void loadGameObjects();
-    std::vector<XevGameObject> gameObjects;
-  };
+  void loadGameObjects();
+  std::vector<XevGameObject> gameObjects;
+};
 } // namespace xev

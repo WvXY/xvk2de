@@ -10,7 +10,6 @@ public:
   const float gravity = 9.8f;
 
 private:
-
 };
 
 } // namespace xev

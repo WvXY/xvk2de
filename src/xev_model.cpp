@@ -58,7 +58,7 @@ void XevModel::createVertexBuffers(const std::vector<Vertex>& vertices) {
 }
 
 void XevModel::createIndexBuffers(const std::vector<uint32_t>& indices) {
-  indexCount = static_cast<uint32_t>(indices.size());
+  indexCount              = static_cast<uint32_t>(indices.size());
   VkDeviceSize bufferSize = sizeof(indices[0]) * indexCount;
 
   VkBuffer stagingBuffer;

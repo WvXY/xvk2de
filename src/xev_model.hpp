@@ -22,7 +22,9 @@ public:
   };
 
   XevModel(XevDevice& device, const std::vector<Vertex>& vertices);
-  XevModel(XevDevice& device, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
+  XevModel(
+      XevDevice& device, const std::vector<Vertex>& vertices,
+      const std::vector<uint32_t>& indices);
 
   ~XevModel();
   XevModel(const XevModel&)            = delete;
