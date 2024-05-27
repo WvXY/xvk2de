@@ -20,8 +20,10 @@ XevModel::XevModel(
 XevModel::~XevModel() {
   vkDestroyBuffer(xevDevice.device(), vertexBuffer, nullptr);
   vkFreeMemory(xevDevice.device(), vertexBufferMemory, nullptr);
-  vkDestroyBuffer(xevDevice.device(), indexBuffer, nullptr);
-  vkFreeMemory(xevDevice.device(), indexBufferMemory, nullptr);
+  if (hasIndexBuffer) {
+    vkDestroyBuffer(xevDevice.device(), indexBuffer, nullptr);
+    vkFreeMemory(xevDevice.device(), indexBufferMemory, nullptr);
+  }
 }
 
 void XevModel::bind(VkCommandBuffer commandBuffer) {

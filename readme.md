@@ -52,5 +52,6 @@ The following libraries are used and pre-installed in this project.
 
 ## Reference
 
-- https://youtu.be/Y9U9IE0gVHA?si=42keJCaEPE-R697P
-- https://austinmorlan.com/posts/entity_component_system/
+- Little Vulkan Engine: https://youtu.be/Y9U9IE0gVHA?si=42keJCaEPE-R697P
+- ECS: https://austinmorlan.com/posts/entity_component_system/
+- Game Loop: https://gameprogrammingpatterns.com/game-loop.html

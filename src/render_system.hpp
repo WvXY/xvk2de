@@ -17,6 +17,7 @@ public:
   SimpleRenderSystem(const SimpleRenderSystem&)            = delete;
   SimpleRenderSystem& operator=(const SimpleRenderSystem&) = delete;
 
+  void updateGameObjects(std::vector<XevGameObject>& gameObjects, float_t deltaTime);
   void renderGameObjects(
       VkCommandBuffer commandBuffer, std::vector<XevGameObject>& gameObjects);
 
