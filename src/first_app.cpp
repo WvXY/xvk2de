@@ -9,11 +9,14 @@
 #include <cassert>
 #include <iostream>
 #include <stdexcept>
+#include <thread>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
+
+#define MS_PER_FRAME 1000.0f / 60.0f
 
 namespace xev {
 
@@ -32,12 +35,21 @@ FirstApp::~FirstApp() {}
 void FirstApp::run() {
   SimpleRenderSystem simpleRenderSystem{xevDevice, xevRenderer.getSwapChainRenderPass()};
 
-  auto lastFrameTime = std::chrono::high_resolution_clock::now();
-  int64_t frameCount = 0;
+  auto lastFrameTime    = std::chrono::high_resolution_clock::now();
+  auto nFramesTime      = std::chrono::high_resolution_clock::now();
+  constexpr int nFrames = 10;
+  int64_t frameCount    = 0;
 
   while (!xevWindow.shouldClose()) {
-    glfwPollEvents();
 
+    frameCount++;
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    auto elapsedTime =
+        std::chrono::duration<float_t>(currentTime - lastFrameTime).count();
+    lastFrameTime = currentTime;
+
+    // update and render
+    glfwPollEvents();
     if (auto commandBuffer = xevRenderer.beginFrame()) {
       xevRenderer.beginSwapChainRenderPass(commandBuffer);
       simpleRenderSystem.renderGameObjects(commandBuffer, gameObjects);
@@ -45,17 +57,15 @@ void FirstApp::run() {
       xevRenderer.endFrame();
     }
 
-    // Frame counter
-    frameCount++;
-
-    // FPS counter
-    auto currentTime = std::chrono::high_resolution_clock::now();
-    auto frameTime = std::chrono::duration<float_t>(currentTime - lastFrameTime).count();
-    lastFrameTime  = currentTime;
-    if (frameCount % 10 == 0) {
-      std::string info = "FPS: " + std::to_string(1.0f / frameTime);
+    // Frame rate
+    if (frameCount % nFrames == 0) {
+      auto nFramesDur = std::chrono::duration<float_t>(currentTime - nFramesTime).count();
+      std::string info = "FPS: " + std::to_string(nFrames / nFramesDur);
       xevWindow.diaplayOnTitle(info);
+      nFramesTime     = currentTime;
     }
+    auto timeToSleep = MS_PER_FRAME - elapsedTime * 1000;
+    std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(timeToSleep)));
   }
 
   vkDeviceWaitIdle(xevDevice.device());
