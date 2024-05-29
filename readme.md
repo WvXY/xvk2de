@@ -45,10 +45,12 @@ The following libraries are used and pre-installed in this project.
 
 ## TODO
 
+- [ ] Physics Engine (Currently working on)
 - [ ] GUI: ImGUI
 - [ ] Mouse Input
-- [ ] Physics Engine
 
+## Problems
+1. There are some ghost images in the rendering. It seems that the image is not cleared correctly.
 
 ## Reference
 
