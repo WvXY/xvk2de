@@ -15,6 +15,8 @@ add_executable(${PROJECT_NAME}
         primitive.cpp
         primitive.hpp
         xev_aliases.hpp
+        components.cpp
+        components.hpp
 )
 
 if(UNIX)
