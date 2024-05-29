@@ -1,9 +1,15 @@
 #pragma once
 
 #include "xev_model.hpp"
+#include "xev_settings.hpp"
 
 // std
 #include <memory>
+
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
 
 namespace xev {
 struct Transform2dComponent {
@@ -40,6 +46,11 @@ public:
   std::shared_ptr<XevModel> model{};
   glm::vec3 color{};
   Transform2dComponent transform2d{};
+
+  void update(float_t deltaTime) {
+  }
+
+  void fixedUpdate() { update(SEC_PER_UPDATE); }
 
 private:
   explicit XevGameObject(id_t objId) : id{objId} {}

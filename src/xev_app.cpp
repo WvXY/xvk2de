@@ -1,8 +1,7 @@
-#include "first_app.hpp"
 #include "primitive.hpp"
 #include "render_system.hpp"
-
-#include <chrono>
+#include "xev_app.hpp"
+#include "xev_settings.hpp"
 
 // std
 #include <array>
@@ -10,14 +9,16 @@
 #include <iostream>
 #include <stdexcept>
 #include <thread>
+#include <chrono>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 
-#define MS_PER_FRAME 1000.0f / 600.0f // Max 600 fps
-#define SEC_PER_UPDATE 1.0f / 100.0f  // 100 updates per second
+
+//#define MS_PER_FRAME 1000.0f / 600.0f // Max 600 fps
+//#define SEC_PER_UPDATE 1.0f / 100.0f  // 100 updates per second
 
 namespace xev {
 
@@ -27,13 +28,13 @@ struct SimplePushConstantData {
   alignas(16) glm::vec3 color;
 };
 
-FirstApp::FirstApp() {
+XevApp::XevApp() {
   loadGameObjects();
 }
 
-FirstApp::~FirstApp() {}
+XevApp::~XevApp() {}
 
-void FirstApp::run() {
+void XevApp::run() {
   SimpleRenderSystem simpleRenderSystem{xevDevice, xevRenderer.getSwapChainRenderPass()};
 
   auto prevTime         = std::chrono::high_resolution_clock::now();
@@ -69,33 +70,33 @@ void FirstApp::run() {
       xevWindow.diaplayOnTitle(info);
       nFramesTime = currentTime;
     }
-    // Frame rate control
-    // auto timeToSleep = MS_PER_FRAME - elapsedTime * 1000;
-    // std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(timeToSleep)));
+//    // Frame rate control
+//     auto timeToSleep = MS_PER_FRAME - dt * 1000;
+//     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(timeToSleep)));
   }
 
   vkDeviceWaitIdle(xevDevice.device());
 }
 
-void FirstApp::loadGameObjects() {
-  {
-    std::vector<XevModel::Vertex> vertices{
-        {{0.0f, -0.8f}, {1.0f, 0.0f, 0.0f}},
-        {{0.5f, 0.2f}, {0.0f, 1.0f, 0.0f}},
-        {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
-    auto xevModel = std::make_shared<XevModel>(xevDevice, vertices);
-
-    for (int i = 0; i < 4; i++) {
-      auto triangle  = XevGameObject::createGameObject();
-      triangle.model = xevModel;
-      // triangle.color = glm::vec3(1.0f * sin(i), 1.f * cos(i), 1.0f * sin(i * 0.5f));
-      triangle.transform2d.translation.y = 0.5f * i;
-      triangle.transform2d.translation.x = 0.0f;
-      triangle.transform2d.scale         = glm::vec2(.5f);
-      triangle.transform2d.rotation      = glm::two_pi<float>() * 0.25f;
-      gameObjects.push_back(std::move(triangle));
-    }
-  }
+void XevApp::loadGameObjects() {
+//  {
+//    std::vector<XevModel::Vertex> vertices{
+//        {{0.0f, -0.8f}, {1.0f, 0.0f, 0.0f}},
+//        {{0.5f, 0.2f}, {0.0f, 1.0f, 0.0f}},
+//        {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
+//    auto xevModel = std::make_shared<XevModel>(xevDevice, vertices);
+//
+//    for (int i = 0; i < 4; i++) {
+//      auto triangle  = XevGameObject::createGameObject();
+//      triangle.model = xevModel;
+//      // triangle.color = glm::vec3(1.0f * sin(i), 1.f * cos(i), 1.0f * sin(i * 0.5f));
+//      triangle.transform2d.translation.y = 0.5f * i;
+//      triangle.transform2d.translation.x = 0.0f;
+//      triangle.transform2d.scale         = glm::vec2(.5f);
+//      triangle.transform2d.rotation      = glm::two_pi<float>() * 0.25f;
+//      gameObjects.push_back(std::move(triangle));
+//    }
+//  }
 
   Box box({0, 0}, 0.5f, 0.5f);
   auto bv                                = box.vertices();

@@ -10,15 +10,15 @@
 #include <vector>
 
 namespace xev {
-class FirstApp {
+class XevApp {
 public:
   static constexpr int WIDTH  = 1280;
   static constexpr int HEIGHT = 720;
 
-  FirstApp();
-  ~FirstApp();
-  FirstApp(const FirstApp&)            = delete;
-  FirstApp& operator=(const FirstApp&) = delete;
+  XevApp();
+  ~XevApp();
+  XevApp(const XevApp&)            = delete;
+  XevApp& operator=(const XevApp&) = delete;
 
   void run();
 

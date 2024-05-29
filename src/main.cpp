@@ -1,11 +1,11 @@
-#include "first_app.hpp"
+#include "xev_app.hpp"
 
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 
 int main() {
-  xev::FirstApp app{};
+  xev::XevApp app{};
 
   try {
     app.run();

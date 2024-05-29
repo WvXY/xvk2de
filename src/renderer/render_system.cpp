@@ -63,10 +63,11 @@ void SimpleRenderSystem::createPipeline(VkRenderPass renderPass) {
 
 void SimpleRenderSystem::updateGameObjects(
   std::vector<XevGameObject>& gameObjects, float_t deltaTime) {
-    for (auto& obj : gameObjects) {
-      obj.transform2d.rotation =
-          glm::mod(obj.transform2d.rotation + deltaTime, glm::two_pi<float>());
-      obj.transform2d.translation.x += 0.1f * deltaTime;
+    for (auto& go : gameObjects) {
+//      obj.transform2d.rotation =
+//          glm::mod(obj.transform2d.rotation + deltaTime, glm::two_pi<float>());
+//      obj.transform2d.translation.x += 0.1f * deltaTime;
+    go.update(deltaTime);
     }
 }
 
