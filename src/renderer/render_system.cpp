@@ -64,10 +64,7 @@ void SimpleRenderSystem::createPipeline(VkRenderPass renderPass) {
 void SimpleRenderSystem::updateGameObjects(
   std::vector<XevGameObject>& gameObjects, float_t deltaTime) {
     for (auto& go : gameObjects) {
-//      obj.transform2d.rotation =
-//          glm::mod(obj.transform2d.rotation + deltaTime, glm::two_pi<float>());
-//      obj.transform2d.translation.x += 0.1f * deltaTime;
-    go.update(deltaTime);
+      go.update(deltaTime);
     }
 }
 
@@ -77,9 +74,9 @@ void SimpleRenderSystem::renderGameObjects(
 
   for (auto& obj : gameObjects) {
     SimplePushConstantData push{};
-    push.offset    = obj.transform2d.translation;
+    push.offset    = obj.transform.translation;
     push.color     = obj.color;
-    push.transform = obj.transform2d.mat2();
+    push.transform = obj.transform.mat2();
 
     vkCmdPushConstants(
         commandBuffer, pipelineLayout,

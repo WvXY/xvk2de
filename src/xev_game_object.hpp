@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AABB.hpp"
+#include "physics.hpp"
 #include "xev_model.hpp"
 #include "xev_settings.hpp"
 
@@ -12,7 +14,7 @@
 #include <glm/gtc/constants.hpp>
 
 namespace xev {
-struct Transform2dComponent {
+struct TransformComponent {
   glm::vec2 translation{};
   glm::vec2 scale{1.0f, 1.0f};
   float rotation{};
@@ -43,16 +45,24 @@ public:
   [[nodiscard]] id_t getId() const { return id; }
 
   const id_t id{};
-  std::shared_ptr<XevModel> model{};
   glm::vec3 color{};
-  Transform2dComponent transform2d{};
+  std::shared_ptr<XevModel> model{};
+
+  TransformComponent transform{};
+  MotionComponent<vec2> physics{};
+  AABB<vec2> aabb{};
 
   void update(float_t deltaTime) {
+    physics.update(deltaTime);
+    transform.translation.x = physics.pos.x;
+    transform.translation.y = -physics.pos.y;
   }
 
   void fixedUpdate() { update(SEC_PER_UPDATE); }
 
 private:
-  explicit XevGameObject(id_t objId) : id{objId} {}
+  explicit XevGameObject(id_t objId) : id{objId} {
+    aabb.max = {1.0f, 1.0f}, aabb.min = {-1.0f, -1.0f};
+  }
 };
 } // namespace xev

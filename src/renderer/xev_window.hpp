@@ -10,11 +10,8 @@ namespace xev {
 class XevWindow {
 public:
   XevWindow(std::string windowName, int width, int height);
-
   ~XevWindow();
-
   XevWindow(const XevWindow&) = delete;
-
   XevWindow& operator=(const XevWindow&) = delete;
 
   bool shouldClose() { return glfwWindowShouldClose(window); }

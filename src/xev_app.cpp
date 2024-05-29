@@ -1,24 +1,20 @@
+#include "xev_app.hpp"
 #include "primitive.hpp"
 #include "render_system.hpp"
-#include "xev_app.hpp"
 #include "xev_settings.hpp"
 
 // std
 #include <array>
 #include <cassert>
+#include <chrono>
 #include <iostream>
 #include <stdexcept>
 #include <thread>
-#include <chrono>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
-
-
-//#define MS_PER_FRAME 1000.0f / 600.0f // Max 600 fps
-//#define SEC_PER_UPDATE 1.0f / 100.0f  // 100 updates per second
 
 namespace xev {
 
@@ -39,7 +35,7 @@ void XevApp::run() {
 
   auto prevTime         = std::chrono::high_resolution_clock::now();
   auto nFramesTime      = std::chrono::high_resolution_clock::now();
-  constexpr int nFrames = 10;
+  constexpr int nFrames = 100;
   float_t timeLag       = 0.0f;
   int64_t frameCount    = 0;
 
@@ -56,8 +52,10 @@ void XevApp::run() {
     if (auto commandBuffer = xevRenderer.beginFrame()) {
       xevRenderer.beginSwapChainRenderPass(commandBuffer);
 
-      for (; timeLag > SEC_PER_UPDATE; timeLag -= SEC_PER_UPDATE) // Fixed time step
-        simpleRenderSystem.updateGameObjects(gameObjects, SEC_PER_UPDATE);
+      //      for (; timeLag > SEC_PER_UPDATE; timeLag -= SEC_PER_UPDATE) // Fixed time
+      //      step
+      //        simpleRenderSystem.updateGameObjects(gameObjects, SEC_PER_UPDATE);
+      simpleRenderSystem.updateGameObjects(gameObjects, dt);
 
       simpleRenderSystem.renderGameObjects(commandBuffer, gameObjects);
       xevRenderer.endSwapChainRenderPass(commandBuffer);
@@ -70,35 +68,35 @@ void XevApp::run() {
       xevWindow.diaplayOnTitle(info);
       nFramesTime = currentTime;
     }
-//    // Frame rate control
-//     auto timeToSleep = MS_PER_FRAME - dt * 1000;
-//     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(timeToSleep)));
+    //    // Frame rate control
+    //     auto timeToSleep = MS_PER_FRAME - dt * 1000;
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(timeToSleep)));
   }
 
   vkDeviceWaitIdle(xevDevice.device());
 }
 
 void XevApp::loadGameObjects() {
-//  {
-//    std::vector<XevModel::Vertex> vertices{
-//        {{0.0f, -0.8f}, {1.0f, 0.0f, 0.0f}},
-//        {{0.5f, 0.2f}, {0.0f, 1.0f, 0.0f}},
-//        {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
-//    auto xevModel = std::make_shared<XevModel>(xevDevice, vertices);
+//    {
+//      std::vector<XevModel::Vertex> vertices{
+//          {{0.0f, -0.8f}, {1.0f, 0.0f, 0.0f}},
+//          {{0.5f, 0.2f}, {0.0f, 1.0f, 0.0f}},
+//          {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
+//      auto xevModel = std::make_shared<XevModel>(xevDevice, vertices);
 //
-//    for (int i = 0; i < 4; i++) {
-//      auto triangle  = XevGameObject::createGameObject();
-//      triangle.model = xevModel;
-//      // triangle.color = glm::vec3(1.0f * sin(i), 1.f * cos(i), 1.0f * sin(i * 0.5f));
-//      triangle.transform2d.translation.y = 0.5f * i;
-//      triangle.transform2d.translation.x = 0.0f;
-//      triangle.transform2d.scale         = glm::vec2(.5f);
-//      triangle.transform2d.rotation      = glm::two_pi<float>() * 0.25f;
-//      gameObjects.push_back(std::move(triangle));
+//      for (int i = 0; i < 4; i++) {
+//        auto triangle  = XevGameObject::createGameObject();
+//        triangle.model = xevModel;
+//        triangle.transform.translation.y = 0.5f * i;
+//        triangle.transform.translation.x = 0.0f;
+//        triangle.transform.scale         = glm::vec2(.5f);
+//        triangle.transform.rotation      = glm::two_pi<float>() * 0.25f;
+//        triangle.physics.acc.x = 1.f;
+//        gameObjects.push_back(std::move(triangle));
+//      }
 //    }
-//  }
 
-  Box box({0, 0}, 0.5f, 0.5f);
+  Box box({0, 0}, 0.4f, 0.4f);
   auto bv                                = box.vertices();
   std::vector<XevModel::Vertex> vertices = {
       {{bv[0].x, bv[0].y}, {1.0f, 0.0f, 0.0f}},
@@ -111,6 +109,8 @@ void XevApp::loadGameObjects() {
   auto boxModel = std::make_shared<XevModel>(xevDevice, vertices, indices);
   auto gbox     = XevGameObject::createGameObject();
   gbox.model    = boxModel;
+    gbox.physics.acc.x = 1.f;
+    gbox.physics.velWind = {2.f, 24.f};
 
   gameObjects.push_back(std::move(gbox));
   // }
