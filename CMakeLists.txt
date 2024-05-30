@@ -33,4 +33,5 @@ set(SPIRV_OUT_DIR ${PROJECT_BINARY_DIR}/shaders)
 include(cmake/compile_shaders.cmake)
 
 add_subdirectory(src)
+add_subdirectory(unittest)
 

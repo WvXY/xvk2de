@@ -4,6 +4,7 @@ set(XEV_INCLUDE_DIR
         ${SRC_DIR}/renderer/
         ${SRC_DIR}/common/
         ${SRC_DIR}/physics/
+        ${SRC_DIR}/geometry/
 )
 
 file(GLOB_RECURSE XEV_SRC_FILES

@@ -46,6 +46,7 @@ The following libraries are used and pre-installed in this project.
 ## TODO
 
 - [ ] Physics Engine (Currently working on)
+- [ ] Better structure: namespace convention, class, etc.
 - [ ] GUI: ImGUI
 - [ ] Mouse Input
 
