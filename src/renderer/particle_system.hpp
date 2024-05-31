@@ -9,13 +9,13 @@
 #include <vector>
 
 namespace xev {
-class SimpleRenderSystem {
+class ParticleSystem {
 public:
-  SimpleRenderSystem(XevDevice& device, VkRenderPass renderPass);
-  ~SimpleRenderSystem();
+  ParticleSystem(XevDevice& device, VkRenderPass renderPass);
+  ~ParticleSystem();
 
-  SimpleRenderSystem(const SimpleRenderSystem&)            = delete;
-  SimpleRenderSystem& operator=(const SimpleRenderSystem&) = delete;
+  ParticleSystem(const ParticleSystem&)            = delete;
+  ParticleSystem& operator=(const ParticleSystem&) = delete;
 
   void update(std::vector<XevGameObject>& gameObjects, float_t deltaTime);
   void render(VkCommandBuffer commandBuffer, std::vector<XevGameObject>& gameObjects);

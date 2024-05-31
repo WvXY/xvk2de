@@ -7,20 +7,8 @@
 
 namespace xev {
 
-// struct GameObject {
-//   vec2 position{};
-//   vec2 velocity{};
-//   vec2 acceleration{};
-//   float mass    = 1.f;
-//   float damping = 1.f;
-// };
-
 struct Particle {
-  vec2 position{};
-  vec2 velocity{};
-  vec2 acceleration{};
-  float mass    = 1.f;
-  float damping = 0.99f;
+  vec2 position{0.f};
 };
 
 struct Box {

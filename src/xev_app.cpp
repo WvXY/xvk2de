@@ -1,4 +1,5 @@
 #include "xev_app.hpp"
+#include "particle_system.hpp"
 #include "primitive.hpp"
 #include "render_system.hpp"
 #include "xev_settings.hpp"
@@ -32,6 +33,7 @@ XevApp::~XevApp() {}
 
 void XevApp::run() {
   SimpleRenderSystem simpleRenderSystem{xevDevice, xevRenderer.getSwapChainRenderPass()};
+  ParticleSystem particleSystem{xevDevice, xevRenderer.getSwapChainRenderPass()};
 
   auto prevTime         = std::chrono::high_resolution_clock::now();
   auto nFramesTime      = std::chrono::high_resolution_clock::now();
@@ -55,9 +57,11 @@ void XevApp::run() {
       //      for (; timeLag > SEC_PER_UPDATE; timeLag -= SEC_PER_UPDATE) // Fixed time
       //      step
       //        simpleRenderSystem.updateGameObjects(gameObjects, SEC_PER_UPDATE);
-      simpleRenderSystem.updateGameObjects(gameObjects, dt);
+      simpleRenderSystem.update(gameObjects, dt);
+      particleSystem.update(gameObjects, dt);
 
-      simpleRenderSystem.renderGameObjects(commandBuffer, gameObjects);
+      simpleRenderSystem.render(commandBuffer, gameObjects);
+      particleSystem.render(commandBuffer, gameObjects);
       xevRenderer.endSwapChainRenderPass(commandBuffer);
       xevRenderer.endFrame();
     }
@@ -77,24 +81,24 @@ void XevApp::run() {
 }
 
 void XevApp::loadGameObjects() {
-//    {
-//      std::vector<XevModel::Vertex> vertices{
-//          {{0.0f, -0.8f}, {1.0f, 0.0f, 0.0f}},
-//          {{0.5f, 0.2f}, {0.0f, 1.0f, 0.0f}},
-//          {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
-//      auto xevModel = std::make_shared<XevModel>(xevDevice, vertices);
-//
-//      for (int i = 0; i < 4; i++) {
-//        auto triangle  = XevGameObject::createGameObject();
-//        triangle.model = xevModel;
-//        triangle.transform.translation.y = 0.5f * i;
-//        triangle.transform.translation.x = 0.0f;
-//        triangle.transform.scale         = glm::vec2(.5f);
-//        triangle.transform.rotation      = glm::two_pi<float>() * 0.25f;
-//        triangle.physics.acc.x = 1.f;
-//        gameObjects.push_back(std::move(triangle));
-//      }
-//    }
+  //    {
+  //      std::vector<XevModel::Vertex> vertices{
+  //          {{0.0f, -0.8f}, {1.0f, 0.0f, 0.0f}},
+  //          {{0.5f, 0.2f}, {0.0f, 1.0f, 0.0f}},
+  //          {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
+  //      auto xevModel = std::make_shared<XevModel>(xevDevice, vertices);
+  //
+  //      for (int i = 0; i < 4; i++) {
+  //        auto triangle  = XevGameObject::createGameObject();
+  //        triangle.model = xevModel;
+  //        triangle.transform.translation.y = 0.5f * i;
+  //        triangle.transform.translation.x = 0.0f;
+  //        triangle.transform.scale         = glm::vec2(.5f);
+  //        triangle.transform.rotation      = glm::two_pi<float>() * 0.25f;
+  //        triangle.physics.acc.x = 1.f;
+  //        gameObjects.push_back(std::move(triangle));
+  //      }
+  //    }
 
   Box box({0, 0}, 0.4f, 0.4f);
   auto bv                                = box.vertices();
@@ -106,14 +110,22 @@ void XevApp::loadGameObjects() {
   };
   const std::vector<uint32_t> indices = {0, 1, 2, 0, 2, 3, 1};
 
-  auto boxModel = std::make_shared<XevModel>(xevDevice, vertices, indices);
-  auto gbox     = XevGameObject::createGameObject();
-  gbox.model    = boxModel;
-    gbox.physics.acc.x = 1.f;
-    gbox.physics.velWind = {2.f, 24.f};
+  auto boxModel        = std::make_shared<XevModel>(xevDevice, vertices, indices);
+  auto gbox            = XevGameObject::createGameObject();
+  gbox.model           = boxModel;
+  gbox.physics.acc.x   = 1.f;
+  gbox.physics.velWind = {2.f, 24.f};
 
   gameObjects.push_back(std::move(gbox));
-  // }
+
+  Particle particle{};
+  auto gParticle        = XevGameObject::createGameObject();
+  gParticle.type        = GameObjectType::Particle;
+  gParticle.physics.pos = {0.f, 0.f};
+  gParticle.physics.vel = {0.f, 0.f};
+  gParticle.physics.acc = {0.f, 0.f};
+
+  gameObjects.push_back(std::move(gParticle));
 }
 
 } // namespace xev

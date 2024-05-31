@@ -4,6 +4,8 @@
 #include <cstring>
 
 namespace xev {
+XevModel::XevModel(xev::XevDevice& device) : xevDevice(device) {}
+
 XevModel::XevModel(XevDevice& device, const std::vector<Vertex>& vertices)
     : xevDevice{device} {
   createVertexBuffers(vertices);

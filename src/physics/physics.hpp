@@ -20,20 +20,22 @@ public:
   ~MotionComponent() = default;
 
   void update(float deltaTime) {
-//    if (pos.y > 1) {
-//      pos.y = 1;
-//      vel.y = -vel.y * damping;
-//    } else if (pos.y < -1) {
-//      pos.y = -1;
-//      vel.y = -vel.y * damping;
-//    }
-//    if (pos.x > 1) {
-//      pos.x = 1;
-//      vel.x = -vel.x * damping;
-//    } else if (pos.x < -1) {
-//      pos.x = -1;
-//      vel.x = -vel.x * damping;
-//    }
+    if (pos.y > 1) {
+      pos.y = 1;
+      vel.y = -vel.y * damping;
+    } else if (pos.y < -1) {
+      pos.y = -1;
+      vel.y = -vel.y * damping;
+    }
+    if (pos.x > 1) {
+      pos.x = 1;
+      vel.x = -vel.x * damping;
+    } else if (pos.x < -1) {
+      pos.x = -1;
+      vel.x = -vel.x * damping;
+    }
+
+//    if (atRest()) { return; }
 
     T velPrev = vel;
     vel += realAcc() * deltaTime;
@@ -57,5 +59,7 @@ private:
   float mass = 1.0f;
 
   T inline realAcc() const { return acc + (velWind - vel) * airResistance / mass; }
+
+  bool atRest() const { return glm::length(vel) < 0.001f; }
 };
 } // namespace xev

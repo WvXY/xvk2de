@@ -28,6 +28,8 @@ struct TransformComponent {
   }
 };
 
+enum class GameObjectType { Default, Human, Particle, Other };  // temporary solution
+
 class XevGameObject {
 public:
   using id_t = unsigned int;
@@ -46,6 +48,7 @@ public:
 
   const id_t id{};
   glm::vec3 color{};
+  GameObjectType type{GameObjectType::Default};
   std::shared_ptr<XevModel> model{};
 
   TransformComponent transform{};

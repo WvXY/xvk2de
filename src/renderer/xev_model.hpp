@@ -21,6 +21,7 @@ public:
     static std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions();
   };
 
+  XevModel(XevDevice& device);
   XevModel(XevDevice& device, const std::vector<Vertex>& vertices);
   XevModel(
       XevDevice& device, const std::vector<Vertex>& vertices,
