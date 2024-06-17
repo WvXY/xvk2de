@@ -1,6 +1,7 @@
 #include "xev_app.hpp"
 #include "particle_system.hpp"
 #include "primitive.hpp"
+#include "particle.hpp"
 #include "render_system.hpp"
 #include "xev_settings.hpp"
 
@@ -101,7 +102,7 @@ void XevApp::loadGameObjects() {
   //    }
 
   Box box({0, 0}, 0.4f, 0.4f);
-  auto bv                                = box.vertices();
+  auto bv                                = box.getVertices();
   std::vector<XevModel::Vertex> vertices = {
       {{bv[0].x, bv[0].y}, {1.0f, 0.0f, 0.0f}},
       {{bv[1].x, bv[1].y}, {0.0f, 1.0f, 0.0f}},
@@ -118,14 +119,14 @@ void XevApp::loadGameObjects() {
 
   gameObjects.push_back(std::move(gbox));
 
-  Particle particle{};
-  auto gParticle        = XevGameObject::createGameObject();
-  gParticle.type        = GameObjectType::Particle;
-  gParticle.physics.pos = {0.f, 0.f};
-  gParticle.physics.vel = {0.f, 0.f};
-  gParticle.physics.acc = {0.f, 0.f};
-
-  gameObjects.push_back(std::move(gParticle));
+  // Particle particle{};
+  // auto gParticle        = XevGameObject::createGameObject();
+  // gParticle.type        = GameObjectType::Particle;
+  // gParticle.physics.pos = {0.f, 0.f};
+  // gParticle.physics.vel = {0.f, 0.f};
+  // gParticle.physics.acc = {0.f, 0.f};
+  //
+  // gameObjects.push_back(std::move(gParticle));
 }
 
 } // namespace xev

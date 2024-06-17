@@ -1,7 +1,7 @@
 #pragma once
 
+#include "common/xev_game_object.hpp"
 #include "xev_device.hpp"
-#include "xev_game_object.hpp"
 #include "xev_renderer.hpp"
 #include "xev_window.hpp"
 

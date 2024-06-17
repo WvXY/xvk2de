@@ -32,6 +32,6 @@ set(SPIRV_OUT_DIR ${PROJECT_BINARY_DIR}/shaders)
 # script to compile shaders
 include(cmake/compile_shaders.cmake)
 
-add_subdirectory(src)
-add_subdirectory(unittest)
+add_subdirectory(src)   # add source project
+add_subdirectory(unittest)  # add unit test project
 

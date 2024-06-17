@@ -11,6 +11,7 @@ using vec4 = glm::vec4;
 using mat4 = glm::mat4;
 using mat3 = glm::mat3;
 using mat2 = glm::mat2;
+// TODO: maybe switch to other libs or personal implmentations in the future
 } // namespace xev
 
 #endif // XEV_ALIASES_HPP
