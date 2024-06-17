@@ -1,8 +1,8 @@
 #pragma once
 
-#include "AABB.hpp"
-#include "physics.hpp"
-#include "xev_model.hpp"
+#include "../physics/AABB.hpp"
+#include "../physics/physics.hpp"
+#include "../renderer/xev_model.hpp"
 #include "xev_settings.hpp"
 
 // std
