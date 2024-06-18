@@ -4,5 +4,9 @@
 
 namespace xev {
 
+class ComponentManager;
+
+class ComponentBase {
+};
 
 } // namespace xev

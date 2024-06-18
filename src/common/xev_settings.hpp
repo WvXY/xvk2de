@@ -7,6 +7,6 @@ constexpr float_t MS_PER_FRAME = 1000.f / 60.f;
 
 const bool GRAVITY_MODE = true;
 
-const float_t EPSILON = 1e-3;
+// float_t EPSILON = 1e-3;
 
 }

@@ -19,7 +19,7 @@ struct TransformComponent {
   glm::vec2 scale{1.0f, 1.0f};
   float rotation{};
 
-  glm::mat2 mat2() {
+  glm::mat2 getMat2() {
     const float c = glm::cos(rotation);
     const float s = glm::sin(rotation);
     glm::mat2 rotMat{{c, s}, {-s, c}};
@@ -51,14 +51,16 @@ public:
   GameObjectType type{GameObjectType::Default};
   std::shared_ptr<XevModel> model{};
 
+  // components, TODO: use component system
   TransformComponent transform{};
   MotionComponent<vec2> physics{};
   AABB<vec2> aabb{};
 
   void update(float_t deltaTime) {
     physics.update(deltaTime);
-    transform.translation.x = physics.pos.x;
-    transform.translation.y = -physics.pos.y;
+    auto pos = physics.getPosition();
+    transform.translation.x = pos.x;
+    transform.translation.y = -pos.y;
   }
 
   void fixedUpdate() { update(SEC_PER_UPDATE); }

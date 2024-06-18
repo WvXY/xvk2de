@@ -1,5 +1,6 @@
 #pragma once
 
+#include <complex>
 #include <glm/glm.hpp>
 #include <glm/gtc/epsilon.hpp>
 
@@ -9,18 +10,22 @@
 
 namespace xev {
 
-float_t norm(const auto& x) {
-  // return glm::sqrt(glm::dot(x, x));
-  return glm::length(x);
-}
+struct XeMath {
+  static float_t norm(const auto& x) {
+    // return glm::sqrt(glm::dot(x, x));
+    return glm::length(x);
+  }
 
-auto normalize(const auto& x) {
-  return glm::normalize(x);
-}
+  static auto normalize(const auto& x) { return glm::normalize(x); }
 
-auto cmp_float(const auto& x, const auto& y) {
-  return glm::epsilonEqual(x, y, EPSILON);
-}
+  static auto cmp_float(const auto& x, const auto& y) {
+    return glm::epsilonEqual(x, y, EPSILON);
+  }
 
+  static mat2 rotaion2(float_t theta) {
+    float_t s = std::sin(theta), c = std::cos(theta);
+    return mat2{c, s, -s, c};
+  }
+};
 
-} // namespace xem : Xev Engine Math
+} // namespace xev
