@@ -8,6 +8,8 @@ namespace xet {
 using namespace xev;
 using namespace std;
 
+void testLine();
+
 void geoTest() {
   Geometry geometry;
 
@@ -31,6 +33,27 @@ void geoTest() {
   vec3 q2    = {0.f, 1.f, 0.f};
   auto size3 = Geometry::triangleSize3(q0, q1, q2);
   cout << size3 << endl;
+
+  testLine();
 }
+
+void testLine() {
+  Line l0{vec2{0.f}, vec2(1.f, 1.f)};
+  auto endpoints = l0.getEndpoints();
+  cout << endpoints.first.x << " " << endpoints.first.y << ", " << endpoints.second.x << " "
+    << endpoints.second.y << '\n';
+
+  const float_t PI = 3.1415926535897f;
+
+  l0.rotate(PI / 4);
+  l0.rotate(PI / 4);
+  l0.rotate(PI / 4);
+  // l0.rotate(PI / 4);
+
+  endpoints = l0.getEndpoints();
+  cout << endpoints.first.x << " " << endpoints.first.y << ", " << endpoints.second.x << " "
+    << endpoints.second.y << '\n';
+}
+
 
 } // namespace xet (xe test)

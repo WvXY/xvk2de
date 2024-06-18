@@ -1,9 +1,11 @@
 #pragma once
 
+#include <limits>
 #include <utility>
 #include <vector>
 
 #include "xev_aliases.hpp"
+#include "xev_math.hpp"
 
 namespace xev {
 
@@ -49,9 +51,34 @@ private:
   float radius{};
 };
 
+class Line { // In 3d this is a plane
+public:
+  Line() = default;
+  Line(const vec2 point, const vec2 normal) : point{point}, normal(normal) {}
+  Line(const vec2 point, const vec2 normal, const float_t length)
+      : point(point), normal(normal), length(length) {}
+
+  void setNormal(vec2 nrm) { normal = normalize(nrm); }
+  void setLength(float_t len) { length = len; }
+  vec2 getNormal() { return normal; }
+  void move(auto offset) { point += offset; }
+  void rotate(float_t theta) { normal = XeMath::rotaion2(theta) * normal; }
+
+  std::pair<vec2, vec2> getEndpoints() {
+    vec2 tan_len_half = vec2(normal.y, -normal.x) * length * 0.5f;
+    return {point - tan_len_half, point + tan_len_half};
+  }
+
+private:
+  vec2 point{0.f};
+  vec2 normal{0.f, 1.f};
+  float_t length{
+      std::numeric_limits<float_t>::max()}; // sign don't matter, inf line by default
+};
+
 class Polygon {
   std::vector<vec2> vertices;
-  std::vector<uint32_t> indices;  // optional
+  std::vector<uint32_t> indices; // optional
 };
 
 } // namespace xev
