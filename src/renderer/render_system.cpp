@@ -78,7 +78,7 @@ void SimpleRenderSystem::render(
     SimplePushConstantData push{};
     push.offset    = obj.transform.translation;
     push.color     = obj.color;
-    push.transform = obj.transform.mat2();
+    push.transform = obj.transform.getMat2();
 
     vkCmdPushConstants(
         commandBuffer, pipelineLayout,

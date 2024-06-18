@@ -4,22 +4,71 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "AABB.hpp"
 #include "xev_aliases.hpp"
 #include "xev_settings.hpp"
-#include "AABB.hpp"
 
 namespace xev {
-template<typename T>
-class MotionComponent {  // particle physics, only mass no size
+
+template <typename T> class MotionComponent { // particle physics, only mass no size
 public:
-  MotionComponent() { init(); }
-  MotionComponent(const T pos, const T vel, const T acc)
-      : pos(pos), vel(vel), acc(acc) { init();}
+  MotionComponent() = default;
+  MotionComponent(const T pos) : pos(pos) {}
+  MotionComponent(const T pos, const T vel) : pos(pos), vel(vel) {}
 
   MotionComponent operator=(const MotionComponent&) = delete;
-  ~MotionComponent() = default;
+  ~MotionComponent()                                = default;
 
   void update(float deltaTime) {
+    if (atRest()) { return; }
+
+    detectCollision();
+
+    T velPrev = vel;
+    vel += computeAcceleration() * deltaTime;
+    pos += (vel + velPrev) * 0.5f * deltaTime;
+  }
+
+  // setters
+  void addForce(const T& f) { force += f; }
+  void setWind(const T& vel) { windVel = vel; }
+  void setMass(const float m) { mass_inv = 1.f / m; }
+  void setPos(const T& p) { pos = p; }
+  void setGravity(const float_t new_gravity) { gravity = new_gravity; }
+
+  // getters
+  T getPosition() const { return pos; }
+  T getVelocity() const { return vel; }
+  T getForce() const { return force; }
+
+  T computeAcceleration() {
+    acc = force * mass_inv + (windVel - vel) * airResistance * mass_inv;
+    if (GRAVITY_MODE) { acc.y -= gravity; }
+    return acc;
+  }
+
+private:
+  T pos{0.f};
+  T vel{0.f};
+  T acc{0.f};
+  T force{0.f};
+  T windVel{0.f};
+
+  float damping       = 0.99f;
+  float airResistance = 0.3f;
+  float gravity       = 9.8f; // m/s^2
+  float mass_inv      = 1.0f; // inverse mass
+
+  bool atRest() const {
+    // There are 4 conditions for particle to be at rest
+    // 1. velocity is nearly zero
+    // 2. object touches an object
+    // 3. force is zero or direction is opposite to the normal
+    // 4. object is out of bounds
+    return glm::length(vel) < 0.001f && (abs(pos.y) > 0.99f || abs(pos.x) > 0.99f);
+  }
+
+  void detectCollision() {
     if (pos.y > 1) {
       pos.y = 1;
       vel.y = -vel.y * damping;
@@ -34,32 +83,6 @@ public:
       pos.x = -1;
       vel.x = -vel.x * damping;
     }
-
-//    if (atRest()) { return; }
-
-    T velPrev = vel;
-    vel += realAcc() * deltaTime;
-    pos += (vel + velPrev) * 0.5f * deltaTime;
   }
-
-  void init() {
-    if (GRAVITY_MODE) {acc.y = -gravity;}
-  }
-
-  T pos{0.f};
-  T vel{0.f};
-  T acc{0.f};
-
-  float damping = 0.99f;
-  float airResistance = 0.4f;
-  T velWind{0.f};
-
-private:
-  const float gravity = 9.8f;
-  float mass = 1.0f;
-
-  T inline realAcc() const { return acc + (velWind - vel) * airResistance / mass; }
-
-  bool atRest() const { return glm::length(vel) < 0.001f; }
 };
 } // namespace xev

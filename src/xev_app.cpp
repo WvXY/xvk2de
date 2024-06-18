@@ -114,8 +114,9 @@ void XevApp::loadGameObjects() {
   auto boxModel        = std::make_shared<XevModel>(xevDevice, vertices, indices);
   auto gbox            = XevGameObject::createGameObject();
   gbox.model           = boxModel;
-  gbox.physics.acc.x   = 1.f;
-  gbox.physics.velWind = {2.f, 24.f};
+  gbox.physics.setMass(10.f);
+  gbox.physics.addForce(vec2(1.f,2.f));
+  gbox.physics.setWind(vec2(1.f, 0.f));
 
   gameObjects.push_back(std::move(gbox));
 
