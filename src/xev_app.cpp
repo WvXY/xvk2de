@@ -32,6 +32,24 @@ XevApp::XevApp() {
 
 XevApp::~XevApp() {}
 
+// void XevApp::step() {
+//   // update and render
+//   if (auto commandBuffer = xevRenderer.beginFrame()) {
+//     xevRenderer.beginSwapChainRenderPass(commandBuffer);
+//
+//     //      for (; timeLag > SEC_PER_UPDATE; timeLag -= SEC_PER_UPDATE) // Fixed time
+//     //      step
+//     //        simpleRenderSystem.updateGameObjects(gameObjects, SEC_PER_UPDATE);
+//     simpleRenderSystem.update(gameObjects, dt);
+//     particleSystem.update(gameObjects, dt);
+//
+//     simpleRenderSystem.render(commandBuffer, gameObjects);
+//     particleSystem.render(commandBuffer, gameObjects);
+//     xevRenderer.endSwapChainRenderPass(commandBuffer);
+//     xevRenderer.endFrame();
+//   }
+// }
+
 void XevApp::run() {
   SimpleRenderSystem simpleRenderSystem{xevDevice, xevRenderer.getSwapChainRenderPass()};
   ParticleSystem particleSystem{xevDevice, xevRenderer.getSwapChainRenderPass()};
@@ -67,19 +85,20 @@ void XevApp::run() {
       xevRenderer.endFrame();
     }
 
-    if (frameCount % nFrames == 0) {
-      auto nFramesDur = std::chrono::duration<float_t>(currentTime - nFramesTime).count();
-      std::string info = "FPS: " + std::to_string(nFrames / nFramesDur);
-      xevWindow.diaplayOnTitle(info);
-      nFramesTime = currentTime;
+      if (frameCount % nFrames == 0) {
+        auto nFramesDur = std::chrono::duration<float_t>(currentTime - nFramesTime).count();
+        std::string info = "FPS: " + std::to_string(nFrames / nFramesDur);
+        xevWindow.diaplayOnTitle(info);
+        nFramesTime = currentTime;
+      }
+      //    // Frame rate control
+      //     auto timeToSleep = MS_PER_FRAME - dt * 1000;
+      //     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(timeToSleep)));
     }
-    //    // Frame rate control
-    //     auto timeToSleep = MS_PER_FRAME - dt * 1000;
-    //     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(timeToSleep)));
+
+    vkDeviceWaitIdle(xevDevice.device());
   }
 
-  vkDeviceWaitIdle(xevDevice.device());
-}
 
 void XevApp::loadGameObjects() {
   //    {

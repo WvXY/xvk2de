@@ -20,11 +20,11 @@ find_package(Vulkan REQUIRED)
 set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 
 # set directory paths
-set(AST_DIR ${CMAKE_SOURCE_DIR}/assets)
-set(CMK_DIR ${CMAKE_SOURCE_DIR}/cmake)
-set(EXT_DIR ${CMAKE_SOURCE_DIR}/external)
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
-set(SHA_DIR ${CMAKE_SOURCE_DIR}/shaders)
+set(AST_DIR ${PROJECT_SOURCE_DIR}/assets)
+set(CMK_DIR ${PROJECT_SOURCE_DIR}/cmake)
+set(EXT_DIR ${PROJECT_SOURCE_DIR}/external)
+set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
+set(SHA_DIR ${PROJECT_SOURCE_DIR}/shaders)
 
 # set shader output directory
 set(SPIRV_OUT_DIR ${PROJECT_BINARY_DIR}/shaders)
@@ -34,4 +34,5 @@ include(cmake/compile_shaders.cmake)
 
 add_subdirectory(src)   # add source project
 add_subdirectory(unittest)  # add unit test project
+add_subdirectory(demos)
 

@@ -4,6 +4,8 @@
 #include "xev_device.hpp"
 #include "xev_renderer.hpp"
 #include "xev_window.hpp"
+#include "render_system.hpp"
+#include "particle_system.hpp"
 
 #include <memory>
 #include <string>
@@ -22,11 +24,15 @@ public:
 
   void run();
 
-private:
+protected:
   XevWindow xevWindow{"XenonApp", WIDTH, HEIGHT};
   XevDevice xevDevice{xevWindow};
   XevRenderer xevRenderer{xevWindow, xevDevice};
 
+  // SimpleRenderSystem simpleRenderSystem{xevDevice, xevRenderer.getSwapChainRenderPass()};
+  // ParticleSystem particleSystem{xevDevice, xevRenderer.getSwapChainRenderPass()};
+
+  void step();
   void loadGameObjects();
   std::vector<XevGameObject> gameObjects;
 };
