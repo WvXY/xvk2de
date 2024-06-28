@@ -3,12 +3,12 @@ project(XenonApp2D)
 include(${CMK_DIR}/include_xev.cmake)
 
 file(GLOB_RECURSE SOURCES
-        ${PROJECT_SOURCE_DIR}/*.cpp
-        ${PROJECT_SOURCE_DIR}/*.hpp
+        ${SRC_DIR}/*.cpp
+        ${SRC_DIR}/*.cxx
+        ${SRC_DIR}/*.c
 )
 
 add_executable(${PROJECT_NAME}
-        ${XEV_SRC_FILES}
         ${SOURCES}
 )
 

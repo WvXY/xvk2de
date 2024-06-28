@@ -24,6 +24,7 @@ set(AST_DIR ${PROJECT_SOURCE_DIR}/assets)
 set(CMK_DIR ${PROJECT_SOURCE_DIR}/cmake)
 set(EXT_DIR ${PROJECT_SOURCE_DIR}/external)
 set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
+set(ICD_DIR ${PROJECT_SOURCE_DIR}/include)
 set(SHA_DIR ${PROJECT_SOURCE_DIR}/shaders)
 
 # set shader output directory
