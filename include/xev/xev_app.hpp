@@ -29,9 +29,6 @@ protected:
   XevDevice xevDevice{xevWindow};
   XevRenderer xevRenderer{xevWindow, xevDevice};
 
-  // SimpleRenderSystem simpleRenderSystem{xevDevice, xevRenderer.getSwapChainRenderPass()};
-  // ParticleSystem particleSystem{xevDevice, xevRenderer.getSwapChainRenderPass()};
-
   void step();
   void loadGameObjects();
   std::vector<XevGameObject> gameObjects;
