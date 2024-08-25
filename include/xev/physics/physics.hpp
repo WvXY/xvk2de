@@ -35,6 +35,7 @@ public:
   void setMass(const float m) { mass_inv = 1.f / m; }
   void setPos(const T& p) { pos = p; }
   void setGravity(const float_t new_gravity) { gravity = new_gravity; }
+  void setVelocity(const T& v) { vel = v; }
 
   // getters
   T getPosition() const { return pos; }

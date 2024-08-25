@@ -1,7 +1,7 @@
 #include "xev_app.hpp"
+#include "particle.hpp"
 #include "particle_system.hpp"
 #include "primitive.hpp"
-#include "particle.hpp"
 #include "render_system.hpp"
 #include "xev_settings.hpp"
 
@@ -85,59 +85,80 @@ void XevApp::run() {
       xevRenderer.endFrame();
     }
 
-      if (frameCount % nFrames == 0) {
-        auto nFramesDur = std::chrono::duration<float_t>(currentTime - nFramesTime).count();
-        std::string info = "FPS: " + std::to_string(nFrames / nFramesDur);
-        xevWindow.diaplayOnTitle(info);
-        nFramesTime = currentTime;
-      }
-      //    // Frame rate control
-      //     auto timeToSleep = MS_PER_FRAME - dt * 1000;
-      //     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(timeToSleep)));
+    if (frameCount % nFrames == 0) {
+      auto nFramesDur = std::chrono::duration<float_t>(currentTime - nFramesTime).count();
+      std::string info = "FPS: " + std::to_string(nFrames / nFramesDur);
+      xevWindow.diaplayOnTitle(info);
+      nFramesTime = currentTime;
     }
-
-    vkDeviceWaitIdle(xevDevice.device());
+    //    // Frame rate control
+    //     auto timeToSleep = MS_PER_FRAME - dt * 1000;
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(timeToSleep)));
   }
 
+  vkDeviceWaitIdle(xevDevice.device());
+}
 
 void XevApp::loadGameObjects() {
-  //    {
-  //      std::vector<XevModel::Vertex> vertices{
-  //          {{0.0f, -0.8f}, {1.0f, 0.0f, 0.0f}},
-  //          {{0.5f, 0.2f}, {0.0f, 1.0f, 0.0f}},
-  //          {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
-  //      auto xevModel = std::make_shared<XevModel>(xevDevice, vertices);
+  // {
+  //   std::vector<XevModel::Vertex> vertices{
+  //       {{0.0f, -0.8f}, {1.0f, 0.0f, 0.0f}},
+  //       {{0.5f, 0.2f}, {0.0f, 1.0f, 0.0f}},
+  //       {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
+  //   auto xevModel = std::make_shared<XevModel>(xevDevice, vertices);
   //
-  //      for (int i = 0; i < 4; i++) {
-  //        auto triangle  = XevGameObject::createGameObject();
-  //        triangle.model = xevModel;
-  //        triangle.transform.translation.y = 0.5f * i;
-  //        triangle.transform.translation.x = 0.0f;
-  //        triangle.transform.scale         = glm::vec2(.5f);
-  //        triangle.transform.rotation      = glm::two_pi<float>() * 0.25f;
-  //        triangle.physics.acc.x = 1.f;
-  //        gameObjects.push_back(std::move(triangle));
-  //      }
-  //    }
+  //   for (int i = 0; i < 4; i++) {
+  //     auto triangle  = XevGameObject::createGameObject();
+  //     triangle.model = xevModel;
+  //     triangle.transform.translation.y = 0.5f * i;
+  //     triangle.transform.translation.x = 0.0f;
+  //     triangle.transform.scale         = glm::vec2(.5f);
+  //     triangle.transform.rotation      = glm::two_pi<float>() * 0.25f;
+  //     triangle.physics.acc.x = 1.f;
+  //     gameObjects.push_back(std::move(triangle));
+  //   }
+  // }
 
-  Box box({0, 0}, 0.4f, 0.4f);
-  auto bv                                = box.getVertices();
-  std::vector<XevModel::Vertex> vertices = {
-      {{bv[0].x, bv[0].y}, {1.0f, 0.0f, 0.0f}},
-      {{bv[1].x, bv[1].y}, {0.0f, 1.0f, 0.0f}},
-      {{bv[2].x, bv[2].y}, {0.0f, 0.0f, 1.0f}},
-      {{bv[3].x, bv[3].y}, {1.0f, 1.0f, 0.0f}},
-  };
-  const std::vector<uint32_t> indices = {0, 1, 2, 0, 2, 3, 1};
+  for (int i = 0; i < 10; i++) {
+    Box box({0, 0}, 0.05f, 0.05f);
+    auto bv                                = box.getVertices();
+    std::vector<XevModel::Vertex> vertices = {
+        {{bv[0].x, bv[0].y}, {cos(i), sin(i), sin(cos(i))}},
+        {{bv[1].x, bv[1].y}, {cos(i), sin(i), sin(cos(i))}},
+        {{bv[2].x, bv[2].y}, {cos(i), sin(i), sin(cos(i))}},
+        {{bv[3].x, bv[3].y}, {cos(i), sin(i), sin(cos(i))}},
+    };
+    const std::vector<uint32_t> indices = {0, 1, 2, 0, 2, 3, 1};
 
-  auto boxModel        = std::make_shared<XevModel>(xevDevice, vertices, indices);
-  auto gbox            = XevGameObject::createGameObject();
-  gbox.model           = boxModel;
-  gbox.physics.setMass(10.f);
-  gbox.physics.addForce(vec2(1.f,2.f));
-  gbox.physics.setWind(vec2(1.f, 0.f));
+    auto boxModel = std::make_shared<XevModel>(xevDevice, vertices, indices);
+    auto gbox     = XevGameObject::createGameObject();
+    gbox.model    = boxModel;
+    gbox.transform.translation.x = sin(i) * 0.5f;
+    gbox.transform.translation.y = cos(i) * 0.5f;
+    gbox.physics.setMass(i / 2.f + 2.f);
+    gbox.physics.setVelocity(vec2(sin(i) + .5f, cos(i*2.f + 1.f)) * 2.f);
+    gbox.physics.setWind(vec2(0.2f, 0.f));
 
-  gameObjects.push_back(std::move(gbox));
+    gameObjects.push_back(std::move(gbox));
+  }
+  // Box box({0, 0}, 0.4f, 0.4f);
+  // auto bv                                = box.getVertices();
+  // std::vector<XevModel::Vertex> vertices = {
+  //     {{bv[0].x, bv[0].y}, {1.0f, 0.0f, 0.0f}},
+  //     {{bv[1].x, bv[1].y}, {0.0f, 1.0f, 0.0f}},
+  //     {{bv[2].x, bv[2].y}, {0.0f, 0.0f, 1.0f}},
+  //     {{bv[3].x, bv[3].y}, {1.0f, 1.0f, 0.0f}},
+  // };
+  // const std::vector<uint32_t> indices = {0, 1, 2, 0, 2, 3, 1};
+  //
+  // auto boxModel        = std::make_shared<XevModel>(xevDevice, vertices, indices);
+  // auto gbox            = XevGameObject::createGameObject();
+  // gbox.model           = boxModel;
+  // gbox.physics.setMass(10.f);
+  // gbox.physics.addForce(vec2(1.f,2.f));
+  // gbox.physics.setWind(vec2(1.f, 0.f));
+  //
+  // gameObjects.push_back(std::move(gbox));
 
   // Particle particle{};
   // auto gParticle        = XevGameObject::createGameObject();

@@ -8,16 +8,15 @@ if (UNIX)
     option(GLFW_USE_WAYLAND "Enable Wayland" ON)    # use wayland on linux
 endif ()
 
+# set vcpkg toolchain file
+# set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
+
 if (NOT UNIX)
     find_package(GLFW3 REQUIRED)
     find_package(GLM REQUIRED)
 endif ()
 
 find_package(Vulkan REQUIRED)
-
-
-# set vcpkg toolchain file
-set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 
 # set directory paths
 set(AST_DIR ${PROJECT_SOURCE_DIR}/assets)

@@ -9,6 +9,13 @@
 
 namespace xev {
 
+class Primitive {
+public:
+  virtual ~Primitive() = default;
+  virtual void Draw() = 0;
+};
+
+
 // class Particle {
 //   vec2 position{0.f};
 // };
