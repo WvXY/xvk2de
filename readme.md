@@ -1,6 +1,8 @@
-# xvk2de
+# xvk2de (Deprecating)
 
-**Under development...**
+**Deprecating; refactor to XenonVk**
+
+I felt it's difficult to working on multiple projects at the same time, so I will refactor the whole project to XenonVk(3D).
 
 ## Description
 
